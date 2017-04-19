@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
+<body>
+    <p th:text="'success: ' + ${success}" />
+    <p th:text="'challenge_ts: ' + ${challenge_ts}" />
+    <p th:text="'hostname: ' + ${hostname}" />
+    <p th:text="'errorcodes: ' + ${errorcodes}" />
+    <form method="post" action="captcha">
+    	<div class="g-recaptcha" data-sitekey="6LfR0B0UAAAAAHCcJ88mS2EIg7mDMn3DV7f8TvVm"></div>
+    	<input type="submit" value="Submit"></input>
+    </form>
+</body>
+</html>
