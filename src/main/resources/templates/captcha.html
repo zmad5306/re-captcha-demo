@@ -3,6 +3,11 @@
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/javascript">
+		function enableSubmitBtn() {
+			document.getElementById('submitBtn').disabled = false;
+		}   
+    </script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
@@ -11,8 +16,8 @@
     <p th:text="'hostname: ' + ${hostname}" />
     <p th:text="'errorcodes: ' + ${errorcodes}" />
     <form method="post" action="captcha">
-    	<div class="g-recaptcha" data-sitekey="6LfR0B0UAAAAAHCcJ88mS2EIg7mDMn3DV7f8TvVm"></div>
-    	<input type="submit" value="Submit"></input>
+    	<div class="g-recaptcha" data-sitekey="6LfR0B0UAAAAAHCcJ88mS2EIg7mDMn3DV7f8TvVm" data-callback="enableSubmitBtn"></div>
+    	<input id="submitBtn" type="submit" value="Submit" disabled="true"></input>
     </form>
 </body>
 </html>
