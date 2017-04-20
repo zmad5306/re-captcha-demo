@@ -20,7 +20,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -40,8 +39,7 @@ public class CaptchaController {
 	private String secret;
 	
     @RequestMapping(value="/captcha", method=RequestMethod.GET)
-    public String captchaGet(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
+    public String captchaGet() {
         return "captcha";
     }
     
@@ -64,7 +62,6 @@ public class CaptchaController {
     			+ response.getStatusCode().getReasonPhrase() + "headers: " 
     			+ response.getHeaders() + "body: " + response.getBody().replaceAll("\\n|\\r", ""));
  
-    	
     	ObjectMapper mapper = new ObjectMapper();
     	Map<String, Object> responseMap = new HashMap<String, Object>();
     	
