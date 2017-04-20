@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -28,6 +30,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class CaptchaController {
+	
+	private Log logger = LogFactory.getLog(CaptchaController.class);
 	
 	@Value("${validationUrl}")
 	private String validationUrl;
@@ -54,7 +58,12 @@ public class CaptchaController {
     	HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
 
     	RestTemplate restTemplate = new RestTemplate();
-    	ResponseEntity<String> response = restTemplate.postForEntity( validationUrl, request , String.class );
+    	ResponseEntity<String> response = restTemplate.postForEntity(validationUrl, request, String.class);
+    	
+    	logger.info("response: status code: " + response.getStatusCode() + " " 
+    			+ response.getStatusCode().getReasonPhrase() + "headers: " 
+    			+ response.getHeaders() + "body: " + response.getBody().replaceAll("\\n|\\r", ""));
+ 
     	
     	ObjectMapper mapper = new ObjectMapper();
     	Map<String, Object> responseMap = new HashMap<String, Object>();
