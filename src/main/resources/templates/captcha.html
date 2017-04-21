@@ -5,21 +5,21 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script type="text/javascript">
 		function enableSubmitBtn() {
-			document.getElementById('submitBtn').disabled = false;
+			//document.getElementById('submitBtn').disabled = false;
 		}   
     </script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
-    <p th:text="'success: ' + ${success}" />
-    <p th:text="'challenge_ts: ' + ${challenge_ts}" />
-    <p th:text="'hostname: ' + ${hostname}" />
-    <p th:text="'errorcodes: ' + ${errorcodes}" />
-    <p th:if="${success != null and success}">SUCCESS!</p>
-    <p th:if="${success != null and !success}">FAIL!</p>
+    <p th:text="'success: ' + ${captchaResponse?.success}" />
+    <p th:text="'challenge_ts: ' + ${captchaResponse?.challengeTimestamp}" />
+    <p th:text="'hostname: ' + ${captchaResponse?.hostName}" />
+    <p th:text="'errorcodes: '" />
+    <p th:each="errorCode : ${captchaResponse?.errorCodes}" th:text="${errorCode}"></p>
     <form method="post" action="captcha">
     	<div class="g-recaptcha" data-sitekey="6LfR0B0UAAAAAHCcJ88mS2EIg7mDMn3DV7f8TvVm" data-callback="enableSubmitBtn"></div>
-    	<input id="submitBtn" type="submit" value="Submit" disabled="true"></input>
+    	<!-- <input id="submitBtn" type="submit" value="Submit" disabled="true"></input> -->
+    	<input id="submitBtn" type="submit" value="Submit"></input>
     </form>
 </body>
 </html>

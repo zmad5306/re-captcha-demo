@@ -1,8 +1,6 @@
 package com.example;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,9 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class CaptchaController {
@@ -56,21 +52,13 @@ public class CaptchaController {
     	HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
 
     	RestTemplate restTemplate = new RestTemplate();
-    	ResponseEntity<String> response = restTemplate.postForEntity(validationUrl, request, String.class);
+    	ResponseEntity<CaptchaResponse> response = restTemplate.postForEntity(validationUrl, request, CaptchaResponse.class);
     	
-    	logger.info("response: status code: " + response.getStatusCode() + " " 
-    			+ response.getStatusCode().getReasonPhrase() + "headers: " 
-    			+ response.getHeaders() + "body: " + response.getBody().replaceAll("\\n|\\r", ""));
- 
-    	ObjectMapper mapper = new ObjectMapper();
-    	Map<String, Object> responseMap = new HashMap<String, Object>();
+    	logger.info("response status code: " + response.getStatusCode() + " " 
+    			+ response.getStatusCode().getReasonPhrase());
+    	logger.info("response: " + response.getBody());
     	
-    	responseMap = mapper.readValue(response.getBody(),  new TypeReference<Map<String, Object>>() {});
-    	
-    	model.addAttribute("success", responseMap.get("success"));
-    	model.addAttribute("challenge_ts", responseMap.get("challenge_ts"));
-    	model.addAttribute("hostname", responseMap.get("hostname"));
-    	model.addAttribute("errorcodes", responseMap.get("error-codes"));
+    	model.addAttribute("captchaResponse", response.getBody());
     	
         return "captcha";
     }
